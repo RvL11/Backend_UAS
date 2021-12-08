@@ -25,7 +25,8 @@ class AuthController extends Controller
            'alamat' => 'required',
            'tanggal_lahir' => 'required|date|before: -18 years',
            'username' => 'required|unique:users',
-           'password' => 'required'
+           'password' => 'required',
+           'is_admin' => 'required|numeric'
         ]);
 
         if($validate->fails())
@@ -70,28 +71,5 @@ class AuthController extends Controller
         {
             return response(['message' => 'Silahkan Verifikasi Akun'], 401);
         }
-    }
-
-    public function loginAdmin(Request $request)
-    {
-        $loginData = $request->all();
-        $validate = Validator::make($loginData, [
-            'username'=> 'required',
-            'password' => 'required'
-        ]);
-
-        if($validate->fails()) return response(['message' => $validate->errors()], 400);
-        
-        if(!Auth::attempt($loginData)) return response(['message' => 'Username / Password Salah'], 401);
-        
-        $admin = Auth::admin();
-        $token = $admin->createToken('Authentication Token')->accessToken;
-        
-        return response([
-            'message' => 'Login Admin Berhasil',
-            'user' => $user,
-            'token_type' => 'Bearer',
-            'access_token' => $token
-        ]);
     }
 }

@@ -55,6 +55,7 @@ class UserController extends Controller
             'email'=> 'required|email:rfc,dns|unique:users',
             'username' => 'required|unique:users',
             'password' => 'required',
+            'is_admin' => 'required|numeric',
             'alamat' => 'required',
             'no_telp'=> 'required|numeric|unique:users|digits_between:10,13',
             'tanggal_lahir' => 'required|date|before: -18 years'
